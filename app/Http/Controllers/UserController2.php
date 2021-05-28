@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Models\User;
+use App\Models\User2;
 use App\Traits\ApiResponser;
 
 class UserController2 extends Controller
@@ -17,13 +17,13 @@ class UserController2 extends Controller
     }
 
     public function getUsers(){
-        $users = User::all();
+        $users = User2::all();
         return response()->json($users, 200);
     }
 
     public function index()
     {
-        $users = User::all();
+        $users = User2::all();
         return $this->successResponse($users);
     }
 
@@ -33,13 +33,13 @@ class UserController2 extends Controller
         'password' => 'required|max:20',
         ];
         $this->validate($request,$rules);
-        $user = User::create($request->all());
+        $user = User2::create($request->all());
         return $this->successResponse($user, Response::HTTP_CREATED);
     }
 
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = User2::findOrFail($id);
         // $user = User::where('id', $id)->first();    
         return $this->successResponse($user);    
         // return $this->errorResponse('User ID is not found', Response::HTTP_NOT_FOUND); 
@@ -53,7 +53,7 @@ class UserController2 extends Controller
         ];
 
         $this->validate($request, $rules);
-        $user = User::findOrFail($id);  
+        $user = User2::findOrFail($id);  
         if ($user->isClean()) {
             return $this->errorResponse('At least one value must change', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
@@ -63,7 +63,7 @@ class UserController2 extends Controller
 
     public function delete($id)
     {
-        $user = User::findOrFail($id);
+        $user = User2::findOrFail($id);
         $user->delete();
         return $this->successResponse($user);
         
