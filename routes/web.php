@@ -19,7 +19,7 @@ $router->get('/', function () use ($router) {
 
 // unsecure routes 
 $router->group(['prefix' => 'api'], function () use ($router) {
-    $router->get('/users',['uses' => 'UserController@getUsers']);
+    $router->get('/users',['uses' => 'UserController2@getUsers']);
 });
 
 // // more simple routes
@@ -30,3 +30,7 @@ $router->put('/users/{id}', 'UserController2@update'); // update user records
 $router->patch('/users/{id}', 'UserController2@update'); // update user records
 $router->delete('/users/{id}', 'UserController2@delete'); // delete records
 
+//for job user route
+$router->get('/usersjob', 'UserJobController@index'); 
+$router->post('/usersjob', 'UserJobController@add');
+$router->get('/usersjob/{id}','UserJobController@show');

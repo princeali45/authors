@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserJob;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\User2;
@@ -31,16 +32,19 @@ class UserController2 extends Controller
         $rules = [
         'username' => 'required|max:20',
         'password' => 'required|max:20',
+        'jobid' => 'required|numeric|min:1|not_in:0',
         ];
         $this->validate($request,$rules);
+        // $usersjob = UserJob::findOrFail($request->jobid);
+        // UNCOMMENT LAST
         $user = User2::create($request->all());
         return $this->successResponse($user, Response::HTTP_CREATED);
     }
 
     public function show($id)
     {
-        $user = User2::findOrFail($id);
-        // $user = User::where('id', $id)->first();    
+        // $user = User2::findOrFail($id);
+        $user = User2::where('userid', $id)->first();    
         return $this->successResponse($user);    
         // return $this->errorResponse('User ID is not found', Response::HTTP_NOT_FOUND); 
     }
@@ -48,22 +52,30 @@ class UserController2 extends Controller
     public function update(Request $request,$id)
     {
         $rules = [
-        'username' => 'max:20',
-        'password' => 'max:20',
-        ];
+            'username' => 'max:20',
+            'password' => 'max:20',
+            'jobid' => 'numeric|min:1|not_in:0',
+            ];
+    
+            $this->validate($request, $rules);
+            // $user = User::findOrFail($id);  
+            $user = User2::where('userid', $id)->firstOrFail(); 
+            $user->fill($request->all());
+            if ($user->isClean()) {
+                return $this->errorResponse('At least one value must change', Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+            $user->save();
+            return $this->successResponse($user);
 
-        $this->validate($request, $rules);
-        $user = User2::findOrFail($id);  
-        if ($user->isClean()) {
-            return $this->errorResponse('At least one value must change', Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-        $user->save();
-        return $this->successResponse($user);
+        
+          
+        
     }
 
     public function delete($id)
     {
-        $user = User2::findOrFail($id);
+        // $user = User2::findOrFail($id);
+        $user = User2::where('userid', $id)->first();  
         $user->delete();
         return $this->successResponse($user);
         

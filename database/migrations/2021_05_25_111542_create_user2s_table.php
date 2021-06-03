@@ -14,9 +14,11 @@ class CreateUser2sTable extends Migration
     public function up()
     {
         Schema::create('user2s', function (Blueprint $table) {
-            $table->id();
+            $table->increments('userid');
             $table->string('username');
             $table->string('password');
+            $table->unsignedBigInteger('jobid');
+            $table->foreign('jobid')->references('jobid')->on('user_jobs')->onDelete('cascade');
             // $table->timestamps();
         });
     }
