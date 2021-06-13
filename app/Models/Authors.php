@@ -4,15 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserJob extends Model
+class Authors extends Model
 {
     public $timestamps = false;
     
-    protected $table = 'user_jobs';
+    protected $table = 'tblauthors';
 
     protected $fillable = [
-        'jobid','jobname',
+        'id','fullname','gender', 'birthday',
     ];
 
-    protected $primaryKey = 'jobid';
+    protected $primaryKey = 'id';
 }
