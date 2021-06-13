@@ -44,8 +44,8 @@ class AuthorsController extends Controller
 
     public function show($id)
     {
-        // $author = Authors::findOrFail($id);
-        $author = Authors::where('id', $id)->first();    
+        $author = Authors::findOrFail($id);
+        // $author = Authors::where('id', $id)->first();    
         return $this->successResponse($author);    
         // return $this->errorResponse('author ID is not found', Response::HTTP_NOT_FOUND); 
     }
@@ -60,13 +60,14 @@ class AuthorsController extends Controller
             ];
 
             $this->validate($request, $rules);
-            // $author = author::findOrFail($id);  
-            $author = Authors::where('id', $id)->firstOrFail(); 
+            $author = Authors::findOrFail($id);  
+            //author = Authors::where('id', $id)->FindOrFail(); 
             $author->fill($request->all());
             if ($author->isClean()) {
                 return $this->errorResponse('At least one value must change', Response::HTTP_UNPROCESSABLE_ENTITY);
             }
             $author->save();
+
             return $this->successResponse($author);
 
         
@@ -76,8 +77,8 @@ class AuthorsController extends Controller
 
     public function delete($id)
     {
-        // $author = Authors::findOrFail($id);
-        $author = Authors::where('id', $id)->first();  
+        $author = Authors::findOrFail($id);
+        // $author = Authors::where('id', $id)->first();  
         $author->delete();
         return $this->successResponse($author);
         
